@@ -45,6 +45,8 @@
             <fileset dir="${basedir}/">
                 <include name="package.json" />
                 <include name="app.js" />
+                <include name="sendlog.js" />
+
                 <include name="mail-test.js" />
                 <include name="src/**" />
                 <include name="tests/**" />

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * @date:    2016-08-16
  * @file:    sendlog.js
