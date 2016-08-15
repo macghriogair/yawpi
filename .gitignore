@@ -1,0 +1,4 @@
+config.json
+build.properties
+/node_modules
+/dist

@@ -1,0 +1,18 @@
+{
+    "mail" : {
+        "connectionString" : "",
+        "to": "",
+        "from": ""
+    },
+    "influx": {
+        "host": "",
+        "user": "",
+        "pass": "",
+        "db": ""
+    },
+    "sensor": {
+        "id": ""
+    },
+
+    "frequency": "3"
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="pi-weather" default="help">
+
+    <property name="basedir" value="."/>
+    <property name="distdir" value="${basedir}/dist" />
+    <property file="${basedir}/build.properties"/>
+
+    <target name="help">
+        <echo>
+            *** Available targets *********************************************
+            *                                                                 *
+            * deploy             Deploy to production                         *
+            *                                                                 *
+            *******************************************************************
+        </echo>
+    </target>
+
+    <target name="build">
+        <exec executable="/usr/bin/npm">
+            <arg value="install" />
+        </exec>
+    </target>
+
+    <!-- DEPLOY -->
+    <target name="deploy" description="Deploy to production site">
+        <phingcall target="build" />
+        <phingcall target="deploy.prepare" />
+        <phingcall target="deploy.copy" />
+        <phingcall target="deploy.rsync" />
+    </target>
+
+    <target name="deploy.rsync">
+        <filesync
+            sourceDir="${distdir}/"
+            destinationDir="${production.user}@${production.host}:${production.dir}"
+            dryrun="false"
+            itemizechanges="true"
+            verbose="true"
+            checksum="true"
+            />
+    </target>
+
+    <target name="deploy.copy">
+        <copy todir="${basedir}/${distdir}" tstamp="true">
+            <fileset dir="${basedir}/">
+                <include name="package.json" />
+                <include name="app.js" />
+                <include name="mail-test.js" />
+                <include name="src/**" />
+                <include name="tests/**" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="deploy.prepare" unless="deploy.prepare.done">
+        <delete dir="${basedir}/${distdir}" quiet="true" />
+        <mkdir dir="${basedir}/${distdir}"/>
+        <property name="deploy.prepare.done" value="true" />
+    </target>
+</project>

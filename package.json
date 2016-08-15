@@ -1,0 +1,20 @@
+{
+  "name": "macghriogair-pi-weather",
+  "version": "1.0.0",
+  "description": "A PI 3 proof of concept on fetching climate data from a TI SensorTag and storing it to InfluxDB.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrick Mac Gregor <macgregor.porta@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "async": "^2.0.1",
+    "influx": "^4.2.1",
+    "nconf": "^0.8.4",
+    "nodemailer": "^2.5.0",
+    "sensortag": "^1.2.2"
+  }
+}
