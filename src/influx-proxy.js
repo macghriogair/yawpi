@@ -30,7 +30,7 @@ InfluxProxy.prototype.prepare = function() {
         temperature: [],
         humidity: [],
         pressure: [],
-        lux: []
+        // lux: []
     };
     return this;
 };

@@ -8,7 +8,7 @@
 var nconf = require('nconf');
 var logger = require('./src/mail-logger');
 
-nconf.file({ file: 'config.json' });
+nconf.file({ file: __dirname + '/config.json' });
 
 logger.init({
     connect: nconf.get('mail:connectionString'),
