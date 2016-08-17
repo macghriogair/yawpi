@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * @date:    2016-08-05
  * @file:    app.js
@@ -15,8 +14,6 @@ var nconf = require('nconf');
 nconf.file({ file: 'config.json' });
 var frequency = nconf.get('frequency') * 60 * 1000,
     sensorId = nconf.get('sensor:id');
-
-    console.log(sensorId);
 
 proxy.init(nconf.get('influx'));
 
@@ -38,7 +35,6 @@ var run = function() {
 
     function(next) {
         if (null !== tag) {
-            console.log('tag not null');
             return next();
         }
         console.log("Scanning for device...");
@@ -50,7 +46,6 @@ var run = function() {
     },
     function(next) {
         if (tag.connectedAndSetUp) {
-            console.log('Already connected and setup...');
             return next();
         }
         tag.once('disconnect', function() {
@@ -78,11 +73,11 @@ var run = function() {
                     next();
                 });
             },
-            function(next) {
-                tag.enableLuxometer(function() {
-                    next();
-                });
-            },
+            // function(next) {
+            //     tag.enableLuxometer(function() {
+            //         next();
+            //     });
+            // },
         ], next);
     },
     function(next) {
@@ -99,25 +94,26 @@ var run = function() {
                 });
             },
             function(next) {
-                tag.readBarometricPressure(function(err, bar) {
+                tag.readBarometricPressure(function(err, hpa) {
                     if(err) {
                         next();
                     }
                     //  1 bar = 10^5 Pa
-                    proxy.data('pressure', parseFloat((bar/100).toFixed(2)));
+                    //  1 hPa = 100 Pa
+                    proxy.data('pressure', parseFloat((hpa).toFixed(2)));
                     next();
                 });
             },
-            function(next) {
-                tag.readLuxometer(function(err, lux) {
-                    if(err) {
-                        next();
-                    }
-                    //  1 bar = 10^5 Pa
-                    proxy.data('lux', parseFloat(lux.toFixed(4)));
-                    next();
-                });
-            }
+            // function(next) {
+            //     tag.readLuxometer(function(err, lux) {
+            //         if(err) {
+            //             next();
+            //         }
+            //         //  1 bar = 10^5 Pa
+            //         proxy.data('lux', parseFloat(lux.toFixed(4)));
+            //         next();
+            //     });
+            // }
         ], next);
     },
     function(next) {
@@ -136,11 +132,11 @@ var run = function() {
                     next();
                 });
             },
-            function(next) {
-                tag.disableLuxometer(function() {
-                    next();
-                });
-            }
+            // function(next) {
+            //     tag.disableLuxometer(function() {
+            //         next();
+            //     });
+            // }
         ], next);
     }
 
@@ -150,9 +146,9 @@ var run = function() {
         }
         console.log('Waiting...');
         // tag.disconnect();
-        // setTimeout(run, 60*1000*3);
     });
 };
 
+console.log("Starting...");
 run();
 setInterval(run, frequency);
