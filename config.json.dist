@@ -14,5 +14,7 @@
         "id": ""
     },
 
-    "frequency": "3"
+    "frequency": "3",
+
+    "logfile": "path/to/logfile"
 }

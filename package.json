@@ -1,5 +1,5 @@
 {
-  "name": "macghriogair-pi-weather",
+  "name": "macghriogair-yawpi",
   "version": "1.0.0",
   "description": "A PI 3 proof of concept on fetching climate data from a TI SensorTag and storing it to InfluxDB.",
   "main": "app.js",

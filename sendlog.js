@@ -17,7 +17,7 @@ logger.init({
     channel: 'Message from Pi Weather Logger',
     attachments: [{
         "filename": "log",
-        "path" : "/var/log/piweather.log"
+        "path" : nconf.get('logfile')
     }]
 });
 
