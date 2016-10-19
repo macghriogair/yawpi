@@ -56,4 +56,9 @@ InfluxProxy.prototype.data = function(key, value) {
     return this;
 };
 
+InfluxProxy.prototype.query = function(q, cb) {
+    "use strict";
+    this._client.query(q, cb);
+};
+
 module.exports = new InfluxProxy();

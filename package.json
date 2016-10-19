@@ -8,11 +8,11 @@
   },
   "author": "Patrick Mac Gregor <macgregor.porta@gmail.com>",
   "license": "MIT",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "async": "^2.0.1",
     "influx": "^4.2.1",
+    "lodash": "^4.15.0",
     "nconf": "^0.8.4",
     "nodemailer": "^2.5.0",
     "sensortag": "^1.2.2"

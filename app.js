@@ -72,48 +72,45 @@ var run = function() {
                 tag.enableBarometricPressure(function() {
                     next();
                 });
-            },
-            // function(next) {
-            //     tag.enableLuxometer(function() {
-            //         next();
-            //     });
-            // },
+            }
         ], next);
     },
     function(next) {
         console.log("Reading...");
         async.parallel([
             function(next) {
-                tag.readHumidity(function(err, temp, hum) {
-                    if(err) {
-                        next();
+                var wasCalled = false;
+                var onHumidityChange = function(temp, hum) {
+                    if (wasCalled) {
+                        return;
                     }
                     proxy.data('temperature', parseFloat(temp.toFixed(2)));
                     proxy.data('humidity', parseFloat(hum.toFixed(2)));
-                    next();
-                });
+                    wasCalled = true;
+                    tag.removeListener('humidityChange', onHumidityChange);
+                    tag.unnotifyHumidity(function() {
+                        next();
+                    });
+                };
+                tag.on('humidityChange', onHumidityChange);
+                tag.notifyHumidity();
             },
             function(next) {
-                tag.readBarometricPressure(function(err, hpa) {
-                    if(err) {
-                        next();
+                var wasCalled = false;
+                var onBarometricPressureChange = function(hpa) {
+                    if (wasCalled) {
+                        return;
                     }
-                    //  1 bar = 10^5 Pa
-                    //  1 hPa = 100 Pa
                     proxy.data('pressure', parseFloat((hpa).toFixed(2)));
-                    next();
-                });
-            },
-            // function(next) {
-            //     tag.readLuxometer(function(err, lux) {
-            //         if(err) {
-            //             next();
-            //         }
-            //         //  1 bar = 10^5 Pa
-            //         proxy.data('lux', parseFloat(lux.toFixed(4)));
-            //         next();
-            //     });
-            // }
+                    wasCalled = true;
+                    tag.removeListener('barometricPressureChange', onBarometricPressureChange);
+                    tag.unnotifyBarometricPressure(function() {
+                        next();
+                    });
+                };
+                tag.on('barometricPressureChange', onBarometricPressureChange);
+                tag.notifyBarometricPressure();
+            }
         ], next);
     },
     function(next) {
@@ -131,12 +128,7 @@ var run = function() {
                 tag.disableBarometricPressure(function() {
                     next();
                 });
-            },
-            // function(next) {
-            //     tag.disableLuxometer(function() {
-            //         next();
-            //     });
-            // }
+            }
         ], next);
     }
 
