@@ -2,7 +2,7 @@
 /**
  * @date    2016-07-31
  * @file    test.php
- * @author  Patrick Mac Gregor <pmacgregor@3pc.de>
+ * @author  Patrick Mac Gregor <macgregor.porta@gmail.com>
  */
 
 $rrdFile = 'test.rrd';
@@ -18,8 +18,7 @@ $options = array( "AVERAGE", "--resolution", "60", "--start", "-1h", "--end", "s
 // );
 $out = rrd_fetch($rrdFile, $options);
 
-foreach ( $out["data"]["speed"] as $key => $value )
-{
+foreach ($out["data"]["speed"] as $key => $value) {
     echo "At timestamp $key, the value for myfield is "  . floatval($value) ."\n";
 }
 

@@ -21,8 +21,7 @@ $opts = array( "--step", "3", "--start", 0,
 
 $ret = rrd_create($fname, $opts);
 
-if( $ret == 0 )
-{
-  $err = rrd_error();
-  echo "Create error: $err\n";
+if ($ret == 0) {
+    $err = rrd_error();
+    echo "Create error: $err\n";
 }
