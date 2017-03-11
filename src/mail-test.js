@@ -5,15 +5,14 @@
  * @author:  Patrick Mac Gregor <pmacgregor@3pc.de>
  */
 
-var nconf = require('nconf');
-var log = require('./src/mail-logger.js');
+var log = require('./mail-logger.js');
 
-nconf.file({ file: 'config.json' });
+import config from '../config.json';
 
 var mailOptions = {
-    connect: nconf.get('mail:connectionString'),
-    to: nconf.get('mail:to'),
-    from: nconf.get('mail:from'),
+    connect: config.mail.connectionString,
+    to: config.mail.to,
+    from: config.mail.from,
     channel: 'Message from Forever App'
 };
 

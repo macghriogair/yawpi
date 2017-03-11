@@ -15,12 +15,6 @@
         </echo>
     </target>
 
-    <target name="build">
-        <exec executable="/usr/bin/npm">
-            <arg value="install" />
-        </exec>
-    </target>
-
     <!-- DEPLOY -->
     <target name="deploy" description="Deploy to production site">
         <phingcall target="build" />
@@ -43,12 +37,10 @@
     <target name="deploy.copy">
         <copy todir="${basedir}/${distdir}" tstamp="true">
             <fileset dir="${basedir}/">
+                <include name="config.json" />
+                <include name="webpack.config.js" />
                 <include name="package.json" />
-                <include name="app.js" />
-                <include name="sendlog.js" />
-                <include name="query.js" />
-
-                <include name="mail-test.js" />
+                <include name="yarn.lock" />
                 <include name="src/**" />
                 <include name="tests/**" />
             </fileset>

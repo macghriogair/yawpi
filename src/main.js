@@ -1,28 +1,20 @@
 /**
  * @date:    2016-08-05
- * @file:    app.js
+ * @file:    main.js
  * @author:  Patrick Mac Gregor <pmacgregor@3pc.de>
  */
+
 
 var async = require('async');
 var sensorTag = require('sensortag');
 
-var proxy = require('./src/influx-proxy');
-// var logger = require('./src/mail-logger');
-var nconf = require('nconf');
+var proxy = require('./influx-proxy');
+// var logger = require('./mail-logger');
+import config from '../config.json';
+var frequency = config.frequency * 60 * 1000,
+    sensorId = config.sensor.id;
 
-nconf.file({ file: 'config.json' });
-var frequency = nconf.get('frequency') * 60 * 1000,
-    sensorId = nconf.get('sensor:id');
-
-proxy.init(nconf.get('influx'));
-
-// logger.init({
-//     connect: nconf.get('mail:connectionString'),
-//     to: nconf.get('mail:to'),
-//     from: nconf.get('mail:from'),
-//     channel: 'Message from Pi Weather Logger'
-// });
+proxy.init(config.influx);
 
 var tag = null;
 // listen for tags:

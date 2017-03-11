@@ -7,12 +7,12 @@
 
 var _ = require('lodash');
 var fs = require('fs');
-var proxy = require('./src/influx-proxy');
-var logger = require('./src/mail-logger');
-var nconf = require('nconf');
-nconf.file({ file: __dirname + '/config.json' });
+var proxy = require('./influx-proxy');
+var logger = require('./mail-logger');
 
-proxy.init(nconf.get('influx'));
+import config from "../config.json";
+
+proxy.init(config.influx);
 
 var lockFile = 'alerted.lock';
 var query = 'select mean(value) from temperature where time > now() - 10m';
@@ -44,9 +44,9 @@ proxy.query(query, function(err, results) {
     checkLocked(function() {
         console.log('Preparing alert message...');
         logger.init({
-            connect: nconf.get('mail:connectionString'),
-            to: nconf.get('mail:to'),
-            from: nconf.get('mail:from'),
+            connect: config.mail.connectionString,
+            to: config.mail.to,
+            from: config.mail.from,
             channel: 'ALERT from Pi Weather Logger',
         });
 
